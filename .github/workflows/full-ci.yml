@@ -176,12 +176,14 @@ jobs:
           # The gcc version can possibly be removed later, as it is slower and needs a larger artifact than the clang one.
           - name: linux-memcheck-gcc
             os: ubuntu-20.04
-            rust-toolchain: stable
+            rust-toolchain: nightly
+            rust-env-rustflags: -Zrandomize-layout
             godot-binary: godot.linuxbsd.editor.dev.x86_64.san
 
           - name: linux-memcheck-clang
             os: ubuntu-20.04
-            rust-toolchain: stable
+            rust-toolchain: nightly
+            rust-env-rustflags: -Zrandomize-layout
             godot-binary: godot.linuxbsd.editor.dev.x86_64.llvm.san
 
     steps:
@@ -192,6 +194,8 @@ jobs:
         with:
           artifact-name: godot-${{ matrix.name }}
           binary-filename: ${{ matrix.godot-binary }}
+          rust-toolchain: ${{ matrix.rust-toolchain }}
+          rust-env-rustflags: ${{ matrix.rust-env-rustflags }}
           with-llvm: ${{ matrix.name == 'macos' }}
 
 
